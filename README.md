@@ -13,8 +13,9 @@ The game is really simple.
 Imagine that we are given 4 random numbers. The goal is to make these 4 numbers to generate a number of 24.
 We can take 2 number and use adder, subtractor, multiplier, or divider
 to combine the two numbers so we'll have a new number as the result of the previously-made equation.
-We can use the resulting number to the next equation. But the used two numbers can't be used anymore.
 We can use the operator as many as we want.
+We can use the resulting number to the next equation.
+But remember that the used two numbers can't be used anymore, it will disappear as we catch it :v
 
 For example,
 we get 3,2,4,1.
