@@ -103,13 +103,13 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         addChild(messageLbl)
         
         //     Create a new stage
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             bg.zPosition = -10
             self.newStage()
         }
         
-        //set a timer (3 minutes) for game over
-        DispatchQueue.main.asyncAfter(deadline: .now() + 180.0) {
+        //set a timer (2 minutes) for game over
+        DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
             self.gameOver = true
             bg.zPosition = 2
             self.messageLbl.text = "Game Over, your score is \(self.score)"
