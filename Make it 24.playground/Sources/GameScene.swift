@@ -32,24 +32,9 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
     var messageLbl:SKLabelNode!
     var score:Int = 0
     var scoreLbl:SKLabelNode!
-    var messageContents = ["Hello! Welcome to MakeIt24",
-                           "In this game you'll have to make the result of a number of 24,",
-                           "by catching all the existing numbers and some of operators needed.",
-                           "Catch it one by one, to make a basic equation",
-                           "You will generate a new number as a result once you catch two numbers and one operator!",
-                           "Use the new number to your next equation.",
-                           "You can use the operators as many as you can,",
-                           "but be careful, when you catch a number, it will be disappearing,",
-                           "as you catch it...",
-                           "If you feel stucked, just make the result near the value of 24,",
-                           "so you'll have less penalty score :p",
-                           "try to beat more rounds and get the highest score within 3 minutes of the game",
-                           " "]
-    
-    
-    //program utama
+
     public override func didMove(to view: SKView) {
-        objectLenght /= 2.0 //lama lama makin sempit jaraknya
+        objectLenght /= 2.0
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsBody?.friction = 0.0
         physicsWorld.contactDelegate = self
@@ -61,19 +46,17 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         bg.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(bg)
         
-        //Create a Player Node
+        //Player Setuo
         player = SKSpriteNode(texture: SKTexture(image: #imageLiteral(resourceName: "Screen_Shot_2020-05-18_at_09-removebg-preview.png")), color: .clear, size: CGSize(width: size.width * 0.05, height: size.width * 0.05))
         player.position = CGPoint(x: frame.midX, y: frame.midY)
         player.addCircle(radius: player.size.width * (0.5 + objectLenght), edgeColor: .green, filled: true)
         addChild(player)
-        //more on player
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width * (0.5 + objectLenght))
         player.physicsBody?.isDynamic = false
-        
         player.physicsBody?.categoryBitMask = Bitmasks.player
         player.physicsBody?.contactTestBitMask = Bitmasks.activeObject
         
-        //Equation Label to let user know the existing equation
+        //Equation Label
         equationLbl = SKLabelNode(text: equationLblTemp)
         equationLbl.fontSize = 70.0
         equationLbl.position = CGPoint(x: 600, y: 525)
@@ -82,7 +65,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         addChild(equationLbl)
         equationLbl.text = ""
         
-        //score label
+        //Score Label
         scoreLbl = SKLabelNode(text: equationLblTemp)
         scoreLbl.fontSize = 70.0
         scoreLbl.position = CGPoint(x: 75, y: 525)
@@ -91,7 +74,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         addChild(scoreLbl)
         scoreLbl.text = "Your Score: 0"
         
-        //greeting message label
+        //Message Label
         messageLbl = SKLabelNode(text: equationLblTemp)
         messageLbl.fontSize = 70.0
         messageLbl.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -102,13 +85,13 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         messageLbl.numberOfLines = 2
         addChild(messageLbl)
         
-        //     Create a new stage
+        //Create a new stage
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             bg.zPosition = -10
             self.newStage()
         }
         
-        //set a timer (2 minutes) for game over
+        //Timer
         DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
             self.gameOver = true
             bg.zPosition = 8
@@ -119,18 +102,18 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
     
     //Generate an Operator or a Number
     func createNumbersAndOperators(theValue:String){
-        //set up the node appearance
         let aNumberOrOperatorNode = SKSpriteNode(texture: SKTexture(image: #imageLiteral(resourceName: "Picture1.png")), color: .clear, size: CGSize(width: size.width * 0.07, height: size.width * 0.07))
         aNumberOrOperatorNode.position = CGPoint(x: positionWithin(range: 0.8, containerSize: size.width), y: positionWithin(range: 0.8, containerSize: size.height-100))
         aNumberOrOperatorNode.addCircle(radius: player.size.width * (0.5 + objectLenght), edgeColor: .lightGray, filled: false)
         aNumberOrOperatorNode.addNumberOrOperatorLabel(aNumberOrOperatorValue:theValue)
         aNumberOrOperatorNode.zPosition = 7
+        
         //Set the initial position so they wont be overwrited in position
         while (distanceFrom(posA: aNumberOrOperatorNode.position, posB: player.position) < aNumberOrOperatorNode.size.width * objectLenght * 5) {
             aNumberOrOperatorNode.position = CGPoint(x: positionWithin(range: 0.8, containerSize: size.width), y: positionWithin(range: 0.8, containerSize: size.height))
         }
         
-        //set the value for each node, it can be a number or an operator.
+        //set the value for each node
         aNumberOrOperatorNode.name = theValue
         if aNumberOrOperatorNode.name == "+" || aNumberOrOperatorNode.name == "-" || aNumberOrOperatorNode.name == "*" || aNumberOrOperatorNode.name == "/" {
             aNumberOrOperatorNode.texture = SKTexture(image: #imageLiteral(resourceName: "Picture2.png"))
@@ -151,7 +134,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         aNumberOrOperatorNode.physicsBody?.contactTestBitMask = Bitmasks.activeObject //set an another object type that will trigger the object when contacting
     }
     
-    //Set the action when user touchs the screen --Movement
+    //Set the action when user touchs the screen
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !gameOver else { return }
         guard let touch = touches.first else { return }
@@ -167,7 +150,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    //Set the action when user moves the --Movement
+    //Set the action when user moves the cursor
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard !gameOver && movingPlayer else {return}
         guard let touch = touches.first else { return }
@@ -177,7 +160,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         player.run(SKAction.move(to: newPlayerPosition, duration: 0.01)) //for smoothening
     }
     
-    //Set the action when user touchs the screen --Movement
+    //Set the action when user touchs the screen
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         movingPlayer = false
     }
@@ -191,9 +174,9 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    //Trigger some action when a player hit an object (number or operator)
+    //Collision Action
     func aCollision (anObject: SKSpriteNode){
-        //if the object is a number, just put it on first and third element in equation
+        //Fill the equation
         if anObject.name != "+" && anObject.name != "-" && anObject.name != "*" && anObject.name != "/" {
             let a:Int? = Int(anObject.name!)
             if theEquationTemp[0] == -1001 {
@@ -207,11 +190,9 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
                 equationLblTemp = "\(String(theEquationTemp[0])) \(convertOperatorToChar(operatorCode: theEquationTemp[1])) \(String(theEquationTemp[2]))"
                 equationLbl.text = "\(equationLblTemp)"
             }else {
-                //find the operator!
                 equationLbl.text = "\(equationLblTemp) \n Find and operator!"
             }
         } else{
-            //if object is not a number, put the second element in the equation
             theEquationTemp[1] = convertOperatorToInt(operatorCode: anObject.name!)
             if theEquationTemp [2] != -1001 {
                 equationLblTemp = "\(String(theEquationTemp[0])) \(convertOperatorToChar(operatorCode: theEquationTemp[1])) \(String(theEquationTemp[2]))"
@@ -223,7 +204,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
             equationLbl.text = equationLblTemp
         }
         
-        //if the equation is completed, generate a result
+        //Generate Result
         if theEquationTemp[0] != -1001 && theEquationTemp[1] != -1001 && theEquationTemp[2] != -1001 {
             switch theEquationTemp[1] {
             case 1:
@@ -246,18 +227,16 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
             createNumbersAndOperators(theValue: String(theResult))
             numbersAndOperators[numbersAndOperators.count-1].physicsBody?.categoryBitMask = Bitmasks.activeObject 
             (numbersAndOperators[numbersAndOperators.count-1].children.first as? SKShapeNode)?.strokeColor = .blue
-            theEquationTemp = [-1001,-1001,-1001] //restart the equation array
+            theEquationTemp = [-1001,-1001,-1001]
             
-            //put the text of the result
             equationLbl.text = "\(equationLblTemp) = \(theResult)"
             
-            //wait 0.75 second until we refresh the display for the next equation
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 self.equationLblTemp = ""
                 self.equationLbl.text = ""
             }
             
-            //win and lose state of an stage
+            //Win or Lose State
             if numbersAndOperators.count == 11 && numbersAndOperators[10].name == "24" {
                 equationLbl.text = "You win this stage! +5"
                 score += 5

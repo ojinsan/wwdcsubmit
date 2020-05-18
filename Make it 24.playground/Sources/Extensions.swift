@@ -21,7 +21,7 @@ extension SKNode {
     }
 }
 
-//utilities
+//Utilities
 extension GameScene {
     func convertOperatorToChar (operatorCode:Int) -> String {
         switch operatorCode {
