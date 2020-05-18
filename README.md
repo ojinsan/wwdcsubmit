@@ -1,4 +1,4 @@
-# wwdcsubmit # make it 24 game
+# wwdcsubmit - make it 24 game
 Hi there!
 My name is Fauzan Naufal Ramadhan from Indonesia🇮🇩!
 Basically, I'm a farmer and used to live peacefully in a village for many years.
