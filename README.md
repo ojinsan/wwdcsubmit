@@ -27,4 +27,4 @@ Viola, we get 24! And you will get +5 points for that stage.
 If you feel stuck, just make the nearest number from 24 by these 4 numbers.
 You'll be got penalties, your score will be subtracted by the differences within your result and 24!
 
-Try to get the highest score in three minutes, and beat your friends!
+Try to get the highest score in two minutes, and beat your friends!
