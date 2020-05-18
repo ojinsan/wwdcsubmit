@@ -103,7 +103,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         addChild(messageLbl)
         
         //     Create a new stage
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             bg.zPosition = -10
             self.newStage()
         }
