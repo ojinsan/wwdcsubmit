@@ -111,7 +111,8 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         //set a timer (2 minutes) for game over
         DispatchQueue.main.asyncAfter(deadline: .now() + 120.0) {
             self.gameOver = true
-            bg.zPosition = 2
+            bg.zPosition = 8
+            self.messageLbl.zPosition = 9
             self.messageLbl.text = "Game Over, your score is \(self.score)"
         }
     }
@@ -123,7 +124,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
         aNumberOrOperatorNode.position = CGPoint(x: positionWithin(range: 0.8, containerSize: size.width), y: positionWithin(range: 0.8, containerSize: size.height-100))
         aNumberOrOperatorNode.addCircle(radius: player.size.width * (0.5 + objectLenght), edgeColor: .lightGray, filled: false)
         aNumberOrOperatorNode.addNumberOrOperatorLabel(aNumberOrOperatorValue:theValue)
-        
+        aNumberOrOperatorNode.zPosition = 7
         //Set the initial position so they wont be overwrited in position
         while (distanceFrom(posA: aNumberOrOperatorNode.position, posB: player.position) < aNumberOrOperatorNode.size.width * objectLenght * 5) {
             aNumberOrOperatorNode.position = CGPoint(x: positionWithin(range: 0.8, containerSize: size.width), y: positionWithin(range: 0.8, containerSize: size.height))
@@ -258,7 +259,7 @@ public class GameScene : SKScene, SKPhysicsContactDelegate{
             
             //win and lose state of an stage
             if numbersAndOperators.count == 11 && numbersAndOperators[10].name == "24" {
-                equationLbl.text = "You win this stage! +24"
+                equationLbl.text = "You win this stage! +5"
                 score += 5
                 scoreLbl.text = String(score)
                 gameOver = true
